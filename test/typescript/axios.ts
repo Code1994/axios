@@ -5,9 +5,8 @@ import axios, {
   AxiosInstance,
   AxiosAdapter,
   Cancel,
-  CancelToken,
   CancelTokenSource,
-  Canceler
+  Canceler, AxiosProgressEvent
 } from 'axios';
 
 const config: AxiosRequestConfig = {
@@ -20,7 +19,10 @@ const config: AxiosRequestConfig = {
   ],
   headers: { 'X-FOO': 'bar' },
   params: { id: 12345 },
-  paramsSerializer: (params: any) => 'id=12345',
+  paramsSerializer: {
+    indexes: true,
+    encode: (value) => value
+  },
   data: { foo: 'bar' },
   timeout: 10000,
   withCredentials: true,
@@ -31,8 +33,8 @@ const config: AxiosRequestConfig = {
   responseType: 'json',
   xsrfCookieName: 'XSRF-TOKEN',
   xsrfHeaderName: 'X-XSRF-TOKEN',
-  onUploadProgress: (progressEvent: ProgressEvent) => {},
-  onDownloadProgress: (progressEvent: ProgressEvent) => {},
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => {},
+  onDownloadProgress: (progressEvent: AxiosProgressEvent) => {},
   maxContentLength: 2000,
   maxBodyLength: 2000,
   validateStatus: (status: number) => status >= 200 && status < 300,
@@ -251,6 +253,8 @@ instance1.post('/user', { foo: 'bar' }, { headers: { 'X-FOO': 'bar' } })
 
 // Defaults
 
+axios.defaults.headers['X-FOO'];
+
 axios.defaults.baseURL = 'https://api.example.com/';
 axios.defaults.headers.common['Authorization'] = 'token';
 axios.defaults.headers.post['X-FOO'] = 'bar';
@@ -260,6 +264,22 @@ instance1.defaults.baseURL = 'https://api.example.com/';
 instance1.defaults.headers.common['Authorization'] = 'token';
 instance1.defaults.headers.post['X-FOO'] = 'bar';
 instance1.defaults.timeout = 2500;
+
+// axios create defaults
+
+axios.create({ headers: { foo: 'bar' } });
+axios.create({ headers: { common: { foo: 'bar' } } });
+axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  formSerializer: {
+    indexes: null,
+  },
+  paramsSerializer: {
+    indexes: null,
+  },
+});
 
 // Interceptors
 
@@ -290,8 +310,24 @@ axios.interceptors.response.use(
   (error: any) => Promise.reject(error)
 );
 
+const voidRequestInterceptorId = axios.interceptors.request.use(
+  // @ts-expect-error -- Must return an AxiosRequestConfig (or throw)
+  (_response) => {},
+  (error: any) => Promise.reject(error)
+);
+const voidResponseInterceptorId = axios.interceptors.response.use(
+  // @ts-expect-error -- Must return an AxiosResponse (or throw)
+  (_response) => {},
+  (error: any) => Promise.reject(error)
+);
+axios.interceptors.request.eject(voidRequestInterceptorId);
+axios.interceptors.response.eject(voidResponseInterceptorId);
+
 axios.interceptors.response.use((response: AxiosResponse) => response);
 axios.interceptors.response.use((response: AxiosResponse) => Promise.resolve(response));
+
+axios.interceptors.request.clear();
+axios.interceptors.response.clear();
 
 // Adapters
 
@@ -371,3 +407,45 @@ axios.get('/user')
       const axiosError: AxiosError = error;
     }
   });
+
+// FormData
+
+axios.toFormData({x: 1}, new FormData());
+
+// AbortSignal
+
+axios.get('/user', {signal: new AbortController().signal});
+
+// AxiosHeaders methods
+
+axios.get('/user', {
+    transformRequest: (data, headers) => {
+        headers.setContentType('text/plain');
+        headers['Foo'] = 'bar';
+    },
+
+    transformResponse: (data, headers) => {
+        headers.has('foo');
+    }
+});
+
+// Max Rate
+
+axios.get('/user', {
+  maxRate: 1000
+});
+
+axios.get('/user', {
+  maxRate: [1000, 1000],
+});
+
+// Node progress
+
+axios.get('/user', {
+  onUploadProgress: (e) => {
+    console.log(e.loaded);
+    console.log(e.total);
+    console.log(e.progress);
+    console.log(e.rate);
+  }
+});
