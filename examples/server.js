@@ -133,7 +133,7 @@ server = http.createServer(function (req, res) {
   }
 });
 
-const PORT = argv.p || 3000;
+const PORT = argv.p || 5000;
 
 server.listen(PORT);
 
