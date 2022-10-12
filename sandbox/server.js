@@ -1,8 +1,11 @@
 import fs from 'fs';
-import url from 'url';
+import url, { fileURLToPath } from 'url';
 import path from 'path';
 import http from 'http';
 let server;
+// https://github.com/nodejs/help/issues/2907
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 function pipeFileToResponse(res, file, type) {
   if (type) {
