@@ -19,8 +19,7 @@ const devConfig = merge(commonConfig, {
     hot: true,
     liveReload: false,
     headers: {},
-    proxy: [],
-    stats: 'errors-only'
+    proxy: []
   },
   plugins: [
   ]

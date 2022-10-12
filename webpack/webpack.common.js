@@ -4,12 +4,16 @@ import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
-console.log('__dirname', __dirname,  path.resolve(__dirname, './public/index.html'))
+
 export default {
   entry: path.resolve(__dirname, '../index.js'),
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'js/[name].[hash:4].js'
+    filename: 'js/[name].[hash:4].js',
+    libraryTarget: 'umd',
+    library: 'axios',
+    // axios源码利用的是Es6导出，不加的话，需要多访问一个default属性
+    libraryExport: 'default'
   },
   resolve: {
     extensions: ['.js', '.json']
