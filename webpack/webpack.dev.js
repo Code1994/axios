@@ -1,5 +1,3 @@
-// const commonConfig = require('./webpack.common')
-// const { merge } = require('webpack-merge')
 import path from 'path'
 import commonConfig from './webpack.common.js'
 import { merge } from 'webpack-merge'
@@ -13,26 +11,18 @@ const __dirname = path.dirname(__filename)
 
 const devConfig = merge(commonConfig, {
   mode: 'development',
-  // devtool: 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
-    // publicPath: '/',
-    // watchContentBase: true,
     host: '0.0.0.0',
     port: '5000',
     open: false,
-    // useLocalIp: true,
-
     hot: true,
     liveReload: false,
-    // hotOnly: true,
-
     headers: {},
-    proxy: []
+    proxy: [],
+    stats: 'errors-only'
   },
   plugins: [
-    // hot为true时 会自动启用 无需再添加
-    // new webpack.HotModuleReplacementPlugin()
   ]
 })
 
