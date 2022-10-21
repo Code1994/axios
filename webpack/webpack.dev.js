@@ -18,6 +18,7 @@ const devConfig = merge(commonConfig, {
     open: false,
     hot: true,
     liveReload: false,
+    https: true,
     headers: {},
     proxy: []
   },
