@@ -2,6 +2,7 @@ import path from 'path'
 import commonConfig from './webpack.common.js'
 import { merge } from 'webpack-merge'
 import { fileURLToPath } from 'url'
+import fs from 'fs'
 import ip from 'ip'
 import portfinder from 'portfinder'
 import FriendlyErrorsPlugin from 'friendly-errors-webpack-plugin'
@@ -18,7 +19,10 @@ const devConfig = merge(commonConfig, {
     open: false,
     hot: true,
     liveReload: false,
-    https: true,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, './https/localhost-key.pem')),
+      cert: fs.readFileSync(path.resolve(__dirname, './https/localhost.pem'))
+    },
     headers: {},
     proxy: []
   },
