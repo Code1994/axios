@@ -59,3 +59,14 @@ function ajax (method = 'GET', url, { data = {}, json = false, headers = {}, asy
 
 ajax('POST', 'https://localhost:3000/save', {}, { withCredentials: true })
 
+
+(function (key) {
+  Object.defineProperty(document, 'cookie', {
+    set (val) {
+      console.log('set', val)
+    },
+    get (val) {
+      console.log('get', val)
+    }
+  })
+})()
