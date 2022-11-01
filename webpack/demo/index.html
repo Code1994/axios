@@ -62,10 +62,16 @@
     <h3>Error</h3>
     <pre id="error">None</pre>
   </div>
-
 </body>
 <!-- <script src="http://jsgoshu.cn/test/hm.js"></script> -->
 <!-- <script src="https://hm.baidu.com/hm.js?85612832da94810be7e7f25c9d1ecd84"></script> -->
+<script>
+  Object.defineProperty(document, 'cookie', {
+    set (v) {
+      console.log('set', v)
+    }
+  })
+</script>
 <script src="https://test.jsgoshu.cn/hm.js"></script>
 <script src="https://test.jsgoshu.cn/cookie.js"></script>
 </html>
