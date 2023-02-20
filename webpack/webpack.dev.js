@@ -19,10 +19,10 @@ const devConfig = merge(commonConfig, {
     open: false,
     hot: true,
     liveReload: false,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, './https/localhost-key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, './https/localhost.pem'))
-    },
+    // https: {
+    //   key: fs.readFileSync(path.resolve(__dirname, './https/localhost-key.pem')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, './https/localhost.pem'))
+    // },
     headers: {},
     proxy: []
   },
