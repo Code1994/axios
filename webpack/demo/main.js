@@ -2,6 +2,7 @@ import axios from 'lib/axios'
 // import './js/cancelToken.js'
 // import './js/isHTMLForm.js'
 // import './js/cookie.js'
+import './js/adapter.js'
 
 // Just for you IE8
 if (typeof Array.prototype.indexOf === 'undefined') {
