@@ -8,3 +8,6 @@ coverage/
 test/typescript/axios.js*
 sauce_connect.log
 yarn-error.log
+test/module/cjs/node_modules/
+test/module/cjs/package-lock.json
+backup/
