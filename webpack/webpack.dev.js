@@ -12,7 +12,6 @@ const __dirname = path.dirname(__filename)
 
 const devConfig = merge(commonConfig, {
   mode: 'development',
-  devtool: 'eval-cheap-source-map',
   devServer: {
     historyApiFallback: true,
     host: '0.0.0.0',
