@@ -4,6 +4,7 @@ import axios from 'lib/axios'
 // import './js/cookie.js'
 // import './js/adapter.js'
 import './js/interceptors.js'
+// import './js/promise.js'
 
 // Just for you IE8
 if (typeof Array.prototype.indexOf === 'undefined') {
