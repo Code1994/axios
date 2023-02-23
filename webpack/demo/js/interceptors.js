@@ -3,6 +3,9 @@ import axios from 'lib/axios'
 axios.interceptors.request.use((config) => {
   console.log('interceptors-request')
   return config
+}, (err) => {
+  console.error(err)
+  return err
 })
 
 axios.interceptors.response.use((response) => {
