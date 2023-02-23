@@ -6,6 +6,8 @@ axios.interceptors.request.use((config) => {
 }, (err) => {
   console.error(err)
   return err
+}, {
+  synchronous: true
 })
 
 axios.interceptors.response.use((response) => {
@@ -28,7 +30,7 @@ axios({
 }).catch(err => {
   console.error(err)
 })
-
+console.error('interceptor')
 /*
 interceptors-request
 transform-request
